@@ -5,8 +5,14 @@ const app = express();
 const port = 3000;
 
 // Serve static files (HTML, CSS, etc.) from a "public" folder
+
+app.use(cors({
+  origin: '*', 
+  // Replace with your app's origin
+  credentials: true, // Allow cookies, if needed
+}));
+
 app.use(bodyParser.json());
-app.use(cors());
 
 // Initialize game state
 let gameState = {
@@ -84,6 +90,7 @@ app.get('/', (req, res) => {
 
 app.post('/start-game', (req, res) => {
     let size = req.body.size;
+    res.header({'Access-Control-Allow-Origin' : '*'})
     if(size<3 || !size){
       res.status(404).json({"Message":"Invalid input"})
       return
